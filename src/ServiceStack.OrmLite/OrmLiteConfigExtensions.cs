@@ -169,7 +169,7 @@ namespace ServiceStack.OrmLite
                 };
                 
                 var isIgnored = propertyInfo.HasAttributeNamed(typeof(IgnoreAttribute).Name)
-                    || fieldDefinition.IsReference;
+                    || fieldDefinition.IsReference || propertyInfo.HasAttributeNamed(typeof(zly.TableFieldAttribute).Name);
                 if (isIgnored)
                     modelDef.IgnoredFieldDefinitions.Add(fieldDefinition);
                 else

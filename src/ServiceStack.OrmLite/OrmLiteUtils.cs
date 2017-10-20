@@ -52,10 +52,25 @@ namespace ServiceStack.OrmLite
             log.Debug(StringBuilderCache.ReturnAndFree(sb));
         }
         //by zly 2017-10-14
+        static object ProxyInstanceLockObj = 1;
+        static Func<Type, Type> _ProxyInstance = null;
         public static Func<Type, Type> ProxyInstance
         {
-            get;
-            set;
+            get
+            {
+                return _ProxyInstance;
+            }
+            set
+            {
+                if (_ProxyInstance == null)
+                {
+                    lock (ProxyInstanceLockObj)
+                    {
+                        if (_ProxyInstance == null)
+                            _ProxyInstance = value;
+                    }
+                }
+            }
         }
         //end
         public static T CreateInstance<T>()
@@ -63,9 +78,11 @@ namespace ServiceStack.OrmLite
             //by zly 2017-10-14
             if (ProxyInstance != null)
             {
-                Type t = ProxyInstance(typeof(T));
+                var tType = typeof(T);
+                Type t = ProxyInstance(tType);
                 return (T)ReflectionExtensions.CreateInstance(t);
             }
+           // return (T)zly.ProxyInstance.CreateInstance<T>();
             //end
             return (T)ReflectionExtensions.CreateInstance<T>();
         }

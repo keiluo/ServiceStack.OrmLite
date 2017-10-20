@@ -379,6 +379,8 @@ namespace ServiceStack.OrmLite
 
         public virtual string GetTableName(ModelDefinition modelDef)
         {
+            if (modelDef.TableType == zly.TableTypeEnum.Sql)
+                return modelDef.Alias + " tempTableName";
             return GetTableName(modelDef.ModelName, modelDef.Schema);
         }
 

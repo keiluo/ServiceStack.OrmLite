@@ -25,13 +25,14 @@ namespace ServiceStack.OrmLite
             this.IgnoredFieldDefinitions = new List<FieldDefinition>();
             this.CompositeIndexes = new List<CompositeIndexAttribute>();
         }
-
+        public zly.DbLinkNameAttribute DbLinkNameAttr { get; set; }
         public const string RowVersionName = "RowVersion";
 
         public string Name { get; set; }
 
         public string Alias { get; set; }
 
+        public zly.TableTypeEnum TableType { get; set; }
         public string Schema { get; set; }
 
         public string PreCreateTableSql { get; set; }

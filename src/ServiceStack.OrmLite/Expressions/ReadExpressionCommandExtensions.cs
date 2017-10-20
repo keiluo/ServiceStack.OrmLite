@@ -13,7 +13,6 @@ namespace ServiceStack.OrmLite
         internal static List<T> Select<T>(this IDbCommand dbCmd, SqlExpression<T> q)
         {
             string sql = q.SelectInto<T>();
-
             return dbCmd.ExprConvertToList<T>(sql, q.Params, onlyFields: q.OnlyFields);
         }
 
@@ -21,7 +20,11 @@ namespace ServiceStack.OrmLite
         {
             var q = dbCmd.GetDialectProvider().SqlExpression<T>();
             string sql = q.Where(predicate).SelectInto<T>();
-
+            //by zly 2017-10-20
+            if (dbCmd.Connection.ToString() == "Oracle.ManagedDataAccess.Client.OracleConnection"
+                && dbCmd.Transaction != null)
+                sql += " for update ";
+            //end
             return dbCmd.ExprConvertToList<T>(sql, q.Params);
         }
 
@@ -85,14 +88,20 @@ namespace ServiceStack.OrmLite
         internal static T Single<T>(this IDbCommand dbCmd, Expression<Func<T, bool>> predicate)
         {
             var q = dbCmd.GetDialectProvider().SqlExpression<T>();
-
-            return Single(dbCmd, q.Where(predicate));
+            return Single(dbCmd, q.Where(predicate),true);
         }
 
-        internal static T Single<T>(this IDbCommand dbCmd, SqlExpression<T> q)
+        internal static T Single<T>(this IDbCommand dbCmd, SqlExpression<T> q,bool isPredicate=false)
         {
             string sql = q.Limit(1).SelectInto<T>();
-
+            //by zly 2017-10-20
+            if (isPredicate)
+            {
+                if (dbCmd.Connection.ToString() == "Oracle.ManagedDataAccess.Client.OracleConnection"
+                && dbCmd.Transaction != null)
+                    sql += " for update ";
+            }
+            //end
             return dbCmd.ExprConvertTo<T>(sql, q.Params, onlyFields:q.OnlyFields);
         }
 

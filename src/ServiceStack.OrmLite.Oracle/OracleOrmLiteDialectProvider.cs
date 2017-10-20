@@ -518,10 +518,10 @@ namespace ServiceStack.OrmLite.Oracle
                     sqlFilter += " FROM DUAL";
                 return sqlFilter.SqlFmt(filterParams);
             }
-
-            sql.AppendFormat("SELECT {0} FROM {1}",
-                             GetColumnNames(modelDef),
-                             GetQuotedTableName(modelDef));
+                sql.AppendFormat("SELECT {0} FROM {1}",
+                                 GetColumnNames(modelDef),
+                                 GetQuotedTableName(modelDef));
+           
             if (!string.IsNullOrEmpty(sqlFilter))
             {
                 sqlFilter = sqlFilter.SqlFmt(filterParams);
@@ -1140,7 +1140,9 @@ namespace ServiceStack.OrmLite.Oracle
 
         public override string GetQuotedTableName(ModelDefinition modelDef)
         {
-            return Quote(NamingStrategy.GetTableName(modelDef));
+            if (modelDef.TableType == zly.TableTypeEnum.Sql)
+                return modelDef.Alias + " tempTableName";
+            return Quote(NamingStrategy.GetTableName(modelDef)) ;
         }
 
         public override string GetQuotedTableName(string tableName, string schema=null)

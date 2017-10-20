@@ -66,6 +66,8 @@ namespace ServiceStack.OrmLite
 
         public PropertySetterDelegate SetValueFn { get; set; }
 
+        public zly.TableReferenceAttribute TableReferenceAttr { get; set; }
+       
         public object GetValue(object onInstance)
         {
             return this.GetValueFn == null ? null : this.GetValueFn(onInstance);

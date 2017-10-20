@@ -55,7 +55,8 @@ namespace ServiceStack.OrmLite
             var postCreate = modelType.FirstAttribute<PostCreateTableAttribute>();
             var preDrop = modelType.FirstAttribute<PreDropTableAttribute>();
             var postDrop = modelType.FirstAttribute<PostDropTableAttribute>();
-
+            var dbLinkNameAttr = modelType.FirstAttribute<zly.DbLinkNameAttribute>();
+            var tableTypeAttr = modelType.FirstAttribute<zly.TableTypeAttribute>();
             modelDef = new ModelDefinition
             {
                 ModelType = modelType,
@@ -66,6 +67,8 @@ namespace ServiceStack.OrmLite
                 PostCreateTableSql = postCreate != null ? postCreate.Sql : null,
                 PreDropTableSql = preDrop != null ? preDrop.Sql : null,
                 PostDropTableSql = postDrop != null ? postDrop.Sql : null,
+                DbLinkNameAttr = dbLinkNameAttr,
+                TableType =tableTypeAttr==null? zly.TableTypeEnum.TableView: tableTypeAttr.TableTypeValue,
             };
 
             modelDef.CompositeIndexes.AddRange(
@@ -126,7 +129,8 @@ namespace ServiceStack.OrmLite
                 var referenceAttr = propertyInfo.FirstAttribute<ReferenceAttribute>();
                 var foreignKeyAttr = propertyInfo.FirstAttribute<ForeignKeyAttribute>();
                 var customFieldAttr = propertyInfo.FirstAttribute<CustomFieldAttribute>();
-
+                var tableReferenceAttr = propertyInfo.FirstAttribute<zly.TableReferenceAttribute>();
+             
                 var fieldDefinition = new FieldDefinition
                 {
                     Name = propertyInfo.Name,
@@ -166,6 +170,7 @@ namespace ServiceStack.OrmLite
                     BelongToModelName = belongToAttribute != null ? belongToAttribute.BelongToTableType.GetModelDefinition().ModelName : null,
                     CustomFieldDefinition = customFieldAttr != null ? customFieldAttr.Sql : null,
                     IsRefType = propertyType.IsRefType(),
+                    TableReferenceAttr = tableReferenceAttr,
                 };
                 
                 var isIgnored = propertyInfo.HasAttributeNamed(typeof(IgnoreAttribute).Name)

@@ -103,7 +103,10 @@ namespace ServiceStack.OrmLite
         }
 
         /// <summary>
-        /// Returns results from using a LINQ Expression. E.g:
+        /// Returns results from using a LINQ Expression. 
+        /// (若数据库是oracle且当前在事务中，此方法将锁表数据:会在sql末添加 for update
+        /// 若是sqlserver的事务，则通过隔离级别控制是否琐表数据
+        /// )E.g:
         /// <para>db.Select&lt;Person&gt;(x =&gt; x.Age &gt; 40)</para>
         /// </summary>
         public static List<T> Select<T>(this IDbConnection dbConn, Expression<Func<T, bool>> predicate)
@@ -166,7 +169,10 @@ namespace ServiceStack.OrmLite
         }
 
         /// <summary>
-        /// Returns a single result from using a LINQ Expression. E.g:
+        /// Returns a single result from using a LINQ Expression.
+        /// (若数据库是oracle且当前在事务中，此方法将锁表数据:会在sql末添加 for update
+        /// 若是sqlserver的事务，则通过隔离级别控制是否琐表数据
+        /// ) E.g:
         /// <para>db.Single&lt;Person&gt;(x =&gt; x.Age == 42)</para>
         /// </summary>
         public static T Single<T>(this IDbConnection dbConn, Expression<Func<T, bool>> predicate)

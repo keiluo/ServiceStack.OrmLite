@@ -48,9 +48,13 @@ namespace ServiceStack.OrmLite
         public static string GetQuotedColumnName(this IOrmLiteDialectProvider dialect,
             ModelDefinition tableDef, string fieldName)
         {
+            if(tableDef.TableType== zly.TableTypeEnum.TableView)
             return dialect.GetQuotedTableName(tableDef) +
                 "." +
                 dialect.GetQuotedColumnName(fieldName);
+            else
+                return "tempTableName." +
+              dialect.GetQuotedColumnName(fieldName);
         }
 
         public static object FromDbValue(this IOrmLiteDialectProvider dialect, 

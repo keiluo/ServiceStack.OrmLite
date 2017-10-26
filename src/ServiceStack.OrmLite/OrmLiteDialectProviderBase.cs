@@ -942,7 +942,11 @@ namespace ServiceStack.OrmLite
             var value = GetValue<T>(fieldDef, obj);
             if (value == null)
                 return DBNull.Value;
-
+            else if (fieldDef.ColumnType.IsEnum())
+            {
+                return (int)fieldDef.GetValueFn(obj);
+            }
+              
             return value;
         }
 

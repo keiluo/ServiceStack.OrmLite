@@ -11,5 +11,9 @@ namespace ServiceStack.OrmLite.zly
        {
            return OrmLiteConfigExtensions.GetModelDefinition(modelType);
        }
+       public static Dictionary<Type, ModelDefinition> typeModelDefinitionMap
+       {
+           get { return OrmLiteConfigExtensions.typeModelDefinitionMap; }
+       }
     }
 }

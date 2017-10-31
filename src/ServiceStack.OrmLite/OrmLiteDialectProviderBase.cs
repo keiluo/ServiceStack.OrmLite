@@ -395,6 +395,10 @@ namespace ServiceStack.OrmLite
 
         public virtual string GetQuotedTableName(ModelDefinition modelDef)
         {
+            //by zly 2017-10-31
+            if (modelDef.TableType == zly.TableTypeEnum.Sql)
+                return modelDef.Alias + " tempTableName";
+            //end
             return GetQuotedTableName(modelDef.ModelName, modelDef.Schema);
         }
 

@@ -48,6 +48,11 @@ namespace ServiceStack.OrmLite
         public static string GetQuotedColumnName(this IOrmLiteDialectProvider dialect,
             ModelDefinition tableDef, string fieldName)
         {
+            //return dialect.GetQuotedTableName(tableDef) +
+            //  "." +
+            //  dialect.GetQuotedColumnName(fieldName);
+
+            //by zly 2017-10-31 替换上面三行
             if(tableDef.TableType== zly.TableTypeEnum.TableView)
             return dialect.GetQuotedTableName(tableDef) +
                 "." +
@@ -55,6 +60,8 @@ namespace ServiceStack.OrmLite
             else
                 return "tempTableName." +
               dialect.GetQuotedColumnName(fieldName);
+            //end
+
         }
 
         public static object FromDbValue(this IOrmLiteDialectProvider dialect, 

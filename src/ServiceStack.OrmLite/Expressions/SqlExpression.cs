@@ -1327,7 +1327,8 @@ namespace ServiceStack.OrmLite
                     var rightPartialSql = right as PartialSqlString;
                     if (rightPartialSql == null)
                     {
-                        right = GetValue(right, leftEnum.EnumType);
+                        //zly 2017-11-13×¢ÊÍ
+                       // right = GetValue(right, leftEnum.EnumType);
                     }
                 }
                 else if (leftNeedsCoercing)

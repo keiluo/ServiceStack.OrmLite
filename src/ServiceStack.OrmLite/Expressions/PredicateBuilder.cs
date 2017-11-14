@@ -67,6 +67,11 @@ namespace ServiceStack.OrmLite
         private static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second,
                                                 Func<Expression, Expression, Expression> merge)
         {
+            //by zly 2017-11-14
+            if (first == null)
+                return second;
+            //end
+
             // zip parameters (map from parameters of second to parameters of first)
             Dictionary<ParameterExpression, ParameterExpression> map = first.Parameters
                 .Select((f, i) => new { f, s = second.Parameters[i] })

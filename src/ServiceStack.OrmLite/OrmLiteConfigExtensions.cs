@@ -196,7 +196,7 @@ namespace ServiceStack.OrmLite
             } while (!ReferenceEquals(
                 Interlocked.CompareExchange(ref typeModelDefinitionMap, newCache, snapshot), snapshot));
 
-            LicenseUtils.AssertValidUsage(LicenseFeature.OrmLite, QuotaType.Tables, typeModelDefinitionMap.Count);
+            //LicenseUtils.AssertValidUsage(LicenseFeature.OrmLite, QuotaType.Tables, typeModelDefinitionMap.Count);
 
             return modelDef;
         }

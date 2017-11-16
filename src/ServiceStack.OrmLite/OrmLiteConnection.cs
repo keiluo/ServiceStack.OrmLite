@@ -17,6 +17,7 @@ namespace ServiceStack.OrmLite
 
         public IOrmLiteDialectProvider DialectProvider { get; set; }
         public string LastCommandText { get; set; }
+        public string LastSqlAndParams { get; set; }
         public int? CommandTimeout { get; set; }
 
         public OrmLiteConnection(OrmLiteConnectionFactory factory)

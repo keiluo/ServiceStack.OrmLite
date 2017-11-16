@@ -92,12 +92,13 @@ namespace ServiceStack.OrmLite
             return dialectProvider.GetExecFilter();
         }
 
-        public static void SetLastCommandText(this IDbConnection db, string sql)
+        public static void SetLastCommandText(this IDbConnection db, string sql, string sqlAndParams = "")
         {
             var ormLiteConn = db as OrmLiteConnection;
             if (ormLiteConn != null)
             {
                 ormLiteConn.LastCommandText = sql;
+                ormLiteConn.LastSqlAndParams = sqlAndParams;
             }
         }
 

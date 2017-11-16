@@ -19,7 +19,11 @@ namespace ServiceStack.OrmLite
             var ormLiteConn = dbConn as OrmLiteConnection;
             return ormLiteConn != null ? ormLiteConn.LastCommandText : null;
         }
-
+        public static string GetLastSqlAndParams(this IDbConnection dbConn)
+        {
+            var ormLiteConn = dbConn as OrmLiteConnection;
+            return ormLiteConn != null ? ormLiteConn.LastSqlAndParams : null;
+        }
         public static string GetLastSqlAndParams(this IDbCommand dbCmd)
         {
             var sb = StringBuilderCache.Allocate();

@@ -48,7 +48,7 @@ namespace ServiceStack.OrmLite
         public virtual void DisposeCommand(IDbCommand dbCmd, IDbConnection dbConn)
         {
             if (dbCmd == null) return;
-            dbConn.SetLastCommandText(dbCmd.CommandText);
+            dbConn.SetLastCommandText(dbCmd.CommandText,dbCmd.GetLastSqlAndParams());
 
             dbCmd.Dispose();
         }
@@ -80,7 +80,7 @@ namespace ServiceStack.OrmLite
             var ret = filter(dbCmd);
             if (dbCmd != null)
             {
-                dbConn.SetLastCommandText(dbCmd.CommandText);
+                dbConn.SetLastCommandText(dbCmd.CommandText,dbCmd.GetLastSqlAndParams());
             }
             return ret;
         }

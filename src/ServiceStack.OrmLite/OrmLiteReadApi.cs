@@ -536,6 +536,18 @@ namespace ServiceStack.OrmLite
         }
 
         /// <summary>
+        /// by zly 2017-11-16
+        /// </summary>
+        /// <param name="dbConn"></param>
+        /// <param name="sql"></param>
+        /// <param name="anonType"></param>
+        /// <returns></returns>
+        public static DataTable GetDataTable(this IDbConnection dbConn, string sql, object anonType)
+        {
+            return dbConn.Exec(dbCmd => dbCmd.GetDataTable(sql, anonType));
+        }
+
+        /// <summary>
         /// Executes a raw sql non-query using a parameterized query. E.g:
         /// <para>var rowsAffected = db.ExecuteNonQuery("UPDATE Person SET LastName=@name WHERE Id=@id", new { name = "WaterHouse", id = 7 })</para>
         /// </summary>

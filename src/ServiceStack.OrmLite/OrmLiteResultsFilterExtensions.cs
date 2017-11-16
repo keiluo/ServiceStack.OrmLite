@@ -32,6 +32,29 @@ namespace ServiceStack.OrmLite
             return dbCmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// by zly 2017-11-16
+        /// </summary>
+        /// <param name="dbCmd"></param>
+        /// <param name="sql"></param>
+        /// <param name="anonType"></param>
+        /// <returns></returns>
+        public static DataTable GetDataTable(this IDbCommand dbCmd, string sql, object anonType = null)
+        {
+            if (anonType != null)
+                dbCmd.SetParameters(anonType.ToObjectDictionary(), (bool)false);
+
+            dbCmd.CommandText = sql;
+
+            if (Log.IsDebugEnabled)
+                Log.DebugCommand(dbCmd);
+
+            var reader = dbCmd.ExecuteReader();
+            DataTable res = new DataTable();
+            res.Load(reader);
+
+            return res;
+        }
         public static int ExecNonQuery(this IDbCommand dbCmd, string sql, Dictionary<string, object> dict)
         {
 

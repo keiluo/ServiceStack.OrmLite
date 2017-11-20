@@ -758,7 +758,7 @@ namespace ServiceStack.OrmLite.Oracle
                 sql
                     .Append(GetQuotedColumnName(fieldDef.FieldName))
                     .Append("=")
-                    .Append(this.AddParam(dbCmd, fieldDef.GetValue(objWithProperties)).ParameterName);
+                    .Append(this.AddParam(dbCmd, fieldDef.GetValue(objWithProperties), fieldDef.ColumnType).ParameterName);
             }
 
             var strFilter = StringBuilderCacheAlt.ReturnAndFree(sqlFilter);
@@ -1140,8 +1140,10 @@ namespace ServiceStack.OrmLite.Oracle
 
         public override string GetQuotedTableName(ModelDefinition modelDef)
         {
+            //by zly 2017-10-31
             if (modelDef.TableType == zly.TableTypeEnum.Sql)
                 return modelDef.Alias + " tempTableName";
+            //end
             return Quote(NamingStrategy.GetTableName(modelDef)) ;
         }
 
